@@ -1,33 +1,177 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
-import { Streamdown } from 'streamdown';
+import { BookOpen, Dices, Sparkles, Users, Zap } from "lucide-react";
+import { Link } from "wouter";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // The userAuth hooks provides authentication state
-  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  const { user, loading, isAuthenticated } = useAuth();
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
-
-  // Use APP_LOGO (as image src) and APP_TITLE if needed
+  if (loading) {
+    return (
+      <div className="min-h-screen cosmic-bg flex items-center justify-center">
+        <div className="text-center">
+          <div className="cosmic-glow text-4xl font-bold mb-4">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen cosmic-bg">
+      {/* Hero Section */}
+      <div className="container py-12 md:py-24">
+        <div className="text-center space-y-6 mb-16">
+          <div className="flex justify-center mb-6">
+            <img src={APP_LOGO} alt="Conflict Horizon" className="w-32 h-32 rounded-lg shadow-lg" />
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold cosmic-glow">
+            {APP_TITLE}
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            Experience the Palladial Universe with an AI-powered Dungeon Master.
+            Create characters, run campaigns, and explore the Psionic Tapestry.
+          </p>
+          
+          {!isAuthenticated ? (
+            <div className="flex gap-4 justify-center mt-8">
+              <Button size="lg" asChild className="text-lg">
+                <a href={getLoginUrl()}>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Enter the Tapestry
+                </a>
+              </Button>
+            </div>
+          ) : (
+            <div className="flex gap-4 justify-center mt-8">
+              <Button size="lg" asChild>
+                <Link href="/campaigns">
+                  <Users className="mr-2 h-5 w-5" />
+                  My Campaigns
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/characters">
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  My Characters
+                </Link>
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <Sparkles className="h-10 w-10 text-primary mb-2" />
+              <CardTitle>AI Dungeon Master</CardTitle>
+              <CardDescription>
+                An intelligent DM that knows the Conflict Horizon lore, runs encounters, and adapts to your choices
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <BookOpen className="h-10 w-10 text-secondary mb-2" />
+              <CardTitle>Digital Rulebooks</CardTitle>
+              <CardDescription>
+                Upload and access your PDFs with full text search and quick reference
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <Users className="h-10 w-10 text-accent mb-2" />
+              <CardTitle>Imperial Funnel</CardTitle>
+              <CardDescription>
+                Create characters using the five-step Imperial Funnel system with full Pentagram attributes
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <Dices className="h-10 w-10 text-primary mb-2" />
+              <CardTitle>d100 Resolution</CardTitle>
+              <CardDescription>
+                Built-in dice roller with critical success/failure tracking and Gate system support
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <Zap className="h-10 w-10 text-secondary mb-2" />
+              <CardTitle>Tarot Psionics</CardTitle>
+              <CardDescription>
+                Digital Tarot card system for psionic manifestation with automatic Backlash calculation
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
+          <Card className="psionic-border bg-card/50 backdrop-blur">
+            <CardHeader>
+              <Sparkles className="h-10 w-10 text-accent mb-2" />
+              <CardTitle>Campaign Management</CardTitle>
+              <CardDescription>
+                Track sessions, manage NPCs, and maintain persistent game state across multiple campaigns
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </div>
+
+        {/* System Overview */}
+        <div className="mt-24 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 cosmic-glow">
+            The Pentagram System
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="bg-card/50 backdrop-blur border-primary/50">
+              <CardHeader>
+                <CardTitle className="text-primary">Katra</CardTitle>
+                <CardDescription className="text-sm">
+                  Air • Physical Action, Agility, Instinct-Driven Movement
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="bg-card/50 backdrop-blur border-secondary/50">
+              <CardHeader>
+                <CardTitle className="text-secondary">Dominion</CardTitle>
+                <CardDescription className="text-sm">
+                  Earth • Control, Endurance, Resilience, Stability
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="bg-card/50 backdrop-blur border-accent/50">
+              <CardHeader>
+                <CardTitle className="text-accent">Imperius</CardTitle>
+                <CardDescription className="text-sm">
+                  Fire • Command, Willpower, Aggression, Force of Personality
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="bg-card/50 backdrop-blur border-primary/50">
+              <CardHeader>
+                <CardTitle className="text-primary">Harmonia</CardTitle>
+                <CardDescription className="text-sm">
+                  Water • Balance, Empathy, Healing, Emotional Equilibrium
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="border-t border-border/50 mt-24 py-8">
+        <div className="container text-center text-muted-foreground">
+          <p>Powered by the Psionic Tapestry • Built for the Palladial Universe</p>
+        </div>
+      </footer>
     </div>
   );
 }
