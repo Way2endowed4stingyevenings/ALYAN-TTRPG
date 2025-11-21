@@ -1,0 +1,3 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.
+RequestId:51ada7a6-901e-0002-7d1e-eec69b000000
+Time:2025-07-06T02:32:33.4670606Z</Message><QueryParameterName>rscd</QueryParameterName><QueryParameterValue>attachment; filename=The%20Harrowing%20Truth%20–%20Completed%20Universal%20Edition.docx</QueryParameterValue><Reason>HTTP query parameter values contain invalid characters</Reason></Error>
