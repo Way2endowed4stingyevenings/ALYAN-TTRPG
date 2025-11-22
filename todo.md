@@ -3,7 +3,7 @@
 ## Core Features
 
 - [x] Database schema for campaigns, characters, sessions, documents, and messages
-- [ ] Document library with upload and storage
+- [ ] Document library with upload and storage (server and client complete)
 - [ ] Rulebook viewer with search functionality
 - [ ] Campaign creation and management
 - [ ] AI DM chat interface with Conflict Horizon lore knowledge
