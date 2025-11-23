@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import { DocumentLibrary } from "./pages/DocumentLibrary";
+import { CharacterCreator } from "./pages/CharacterCreator";
+import { CharacterList } from "./pages/CharacterList";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -13,6 +15,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/documents"} component={DocumentLibrary} />
+      <Route path={"/characters"} component={CharacterList} />
+      <Route path={"/characters/create"} component={CharacterCreator} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

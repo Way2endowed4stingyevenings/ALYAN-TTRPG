@@ -11,10 +11,10 @@
 - [ ] d100 resolution system with critical success/failure
 - [ ] Dice roller (d6, d8, d10, d12, d20, d100) for Gate system
 - [ ] Digital Tarot card system for psionic manifestation
-- [ ] Character creator using Imperial Funnel (Birth Vector, Point of Origin, Faction, Edict)
-- [ ] Pentagram attribute system (Katra, Dominion, Imperius, Harmonia)
-- [ ] Gnosis/Entropy alignment tracking
-- [ ] Proficiency and Gate tier system
+- [x] Character creator using Imperial Funnel (Birth Vector, Point of Origin, Faction, Edict)
+- [x] Pentagram attribute system (Katra, Dominion, Imperius, Harmonia)
+- [x] Gnosis/Entropy alignment tracking
+- [x] Proficiency and Gate tier system (Placeholder UI)
 - [x] Mobile-responsive psychedelic sci-fi themed UI
 - [x] Integration of user's custom artwork as backgrounds/assets
 
