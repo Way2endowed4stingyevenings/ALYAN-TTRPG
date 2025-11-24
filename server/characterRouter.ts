@@ -2,10 +2,12 @@ import { z } from "zod";
 import { protectedProcedure, router } from "./_core/trpc";
 import { db } from "./db";
 import { characters, InsertCharacter } from "../drizzle/schema";
+import { GameSetting, GAME_SETTINGS } from "../shared/const";
 import { eq } from "drizzle-orm";
 
 // Define the schema for character creation input
 const createCharacterSchema = z.object({
+  setting: z.nativeEnum(GAME_SETTINGS).default(GAME_SETTINGS.CONFLICT_HORIZON),
   name: z.string().min(1, "Character name is required"),
   campaignId: z.number().int().optional(), // Optional if not tied to a campaign yet
 
@@ -38,6 +40,7 @@ export const characterRouter = router({
     .mutation(async ({ ctx, input }) => {
       const characterData: InsertCharacter = {
         userId: ctx.user.id,
+        setting: input.setting,
         ...input,
         // Ensure proficiencies and equipment are stored as strings (JSON.stringify will be done on client)
         proficiencies: input.proficiencies,
@@ -69,9 +72,14 @@ export const characterRouter = router({
     }),
 
   // 3. List all characters for the current user
-  list: protectedProcedure.query(async ({ ctx }) => {
-    return db.select().from(characters).where(eq(characters.userId, ctx.user.id));
-  }),
+  list: protectedProcedure
+    .input(z.object({ setting: z.nativeEnum(GAME_SETTINGS).default(GAME_SETTINGS.CONFLICT_HORIZON) }))
+    .query(async ({ ctx, input }) => {
+      return db
+        .select()
+        .from(characters)
+        .where(and(eq(characters.userId, ctx.user.id), eq(characters.setting, input.setting)));
+    }),
 
   // 4. Delete a character
   delete: protectedProcedure

@@ -1,4 +1,5 @@
 import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { GAME_SETTINGS } from "../shared/const";
 
 /**
  * Core user table backing auth flow.
@@ -32,7 +33,7 @@ export const campaigns = mysqlTable("campaigns", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 255 }).notNull(),
-  setting: varchar("setting", { length: 100 }).notNull().default("Conflict Horizon"),
+  setting: mysqlEnum("setting", Object.values(GAME_SETTINGS)).notNull().default(GAME_SETTINGS.CONFLICT_HORIZON),
   description: text("description"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -48,6 +49,7 @@ export const characters = mysqlTable("characters", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   campaignId: int("campaignId").references(() => campaigns.id, { onDelete: "set null" }),
+  setting: mysqlEnum("setting", Object.values(GAME_SETTINGS)).notNull().default(GAME_SETTINGS.CONFLICT_HORIZON),
   name: varchar("name", { length: 255 }).notNull(),
   
   // Imperial Funnel data

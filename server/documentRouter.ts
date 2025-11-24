@@ -2,6 +2,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "./_core/trpc";
 import { db } from "./db";
 import { documents } from "../drizzle/schema";
+import { GameSetting, GAME_SETTINGS } from "../shared/const";
 import { eq } from "drizzle-orm";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
@@ -62,9 +63,14 @@ export const documentRouter = router({
     }),
 
   // 2. List all documents for the current user
-  list: protectedProcedure.query(async ({ ctx }) => {
-    return db.select().from(documents).where(eq(documents.userId, ctx.user.id));
-  }),
+  list: protectedProcedure
+    .input(z.object({ setting: z.nativeEnum(GAME_SETTINGS).default(GAME_SETTINGS.CONFLICT_HORIZON) }))
+    .query(async ({ ctx, input }) => {
+      return db
+        .select()
+        .from(documents)
+        .where(and(eq(documents.userId, ctx.user.id), eq(documents.setting, input.setting)));
+    }),
 
   // 3. Delete a document (and eventually the file from S3)
   delete: protectedProcedure

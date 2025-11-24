@@ -1,0 +1,21 @@
+{
+  "settingName": "Planet of the Song",
+  "theme": "Whimsical Fantasy & Cosmic Balance",
+  "coreMechanic": "D100 Roll-Under System (Universal)",
+  "attributes": [
+    { "key": "FORCE", "name": "Force", "description": "Raw physical power and impact. Governs strength and direct action." },
+    { "key": "ARCANUM", "name": "Arcanum", "description": "Magical potential and psionic resonance. Governs spellcasting and mental defense." },
+    { "key": "ESSENCE", "name": "Essence", "description": "Life force, endurance, and connection to the world's cycles. Governs health and recovery." },
+    { "key": "PROWESS", "name": "Prowess", "description": "Agility, skill, and finesse in complex tasks. Governs movement and specialized actions." }
+  ],
+  "attributeGeneration": {
+    "method": "To be determined (TBD). Will likely use a point-buy system similar to Conflict Horizon's Pentagram Attributes to enforce balance.",
+    "range": "TBD"
+  },
+  "uniqueMechanics": [
+    { "name": "Resonance vs. Dissonance", "description": "The core conflict of the setting. Actions and powers are influenced by the character's alignment with the world's Song (harmony) or Void (chaos/decay)." },
+    { "name": "Dynamic Attribute Points (DAPs)", "description": "A system for attribute growth and milestones, suggesting a fluid character progression." },
+    { "name": "Song and Void Influences", "description": "Environmental and magical effects tied to the world's balance." }
+  ],
+  "usfrNotes": "The core mechanical loop is the Universal D100 system. The character creation process will focus on the four core attributes and the Resonance/Dissonance alignment. The system needs a clear point-buy rule for the four attributes to enforce a balanced character concept."
+}

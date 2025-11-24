@@ -1,0 +1,21 @@
+{
+  "settingName": "Conflict Horizon",
+  "theme": "Psionic Sci-Fi & Political Intrigue",
+  "coreMechanic": "D100 Roll-Under System (Universal)",
+  "attributes": [
+    { "key": "KATRA", "name": "Katra", "description": "Physical Action, Agility, Instinct-Driven Movement. Opposed by Imperius." },
+    { "key": "DOMINION", "name": "Dominion", "description": "Control, Endurance, Resilience, Stability. Opposed by Harmonia." },
+    { "key": "IMPERIUS", "name": "Imperius", "description": "Command, Willpower, Aggression, Force of Personality. Opposed by Katra." },
+    { "key": "HARMONIA", "name": "Harmonia", "description": "Balance, Empathy, Healing, Emotional Equilibrium. Opposed by Dominion." }
+  ],
+  "attributeGeneration": {
+    "method": "Antagonistic Point-Buy System. Each opposed pair (Katra/Imperius and Dominion/Harmonia) shares a fixed pool of points (e.g., 20).",
+    "range": "1 - 19 (within a pair)"
+  },
+  "uniqueMechanics": [
+    { "name": "Imperial Funnel", "description": "A five-step process where choices in one step (Birth Vector, Point of Origin, Faction, Edict) limit the options in the next." },
+    { "name": "Gnosis/Entropy", "description": "Alignment tracking for Order (Gnosis) or Chaos (Entropy), tracked on a -100 to +100 scale." },
+    { "name": "Proficiency and Gate System", "description": "Proficiency Tiers (Novice to Paragon) are tied to a Gate (Modifier Die) linked to an Attribute." }
+  ],
+  "usfrNotes": "The core mechanical loop is the Universal D100 system. The character creation process is highly structured by the Imperial Funnel and the antagonistic Pentagram Attribute system."
+}

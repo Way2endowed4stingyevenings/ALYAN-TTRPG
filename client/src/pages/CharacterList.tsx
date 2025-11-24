@@ -4,12 +4,14 @@ import { Button } from "@client/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@client/components/ui/card";
 import { Plus, Trash2, Edit, Swords } from "lucide-react";
 import { Link } from "wouter";
+import { useGameSetting } from "@client/contexts/GameSettingContext";
 import { toast } from "sonner";
 
 export function CharacterList() {
+  const { currentGame } = useGameSetting();
   const { data: characters, refetch } = useQuery({
     queryKey: ["characters"],
-    queryFn: () => appRouter.character.list.query(),
+    queryFn: () => appRouter.character.list.query({ setting: currentGame }),
   });
 
   const deleteCharacterMutation = useMutation({

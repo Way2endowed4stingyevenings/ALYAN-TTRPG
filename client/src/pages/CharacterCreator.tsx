@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useGameSetting } from "@client/contexts/GameSettingContext";
+import { GAME_SETTINGS, GameSetting } from "@shared/const";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@client/components/ui/button";
@@ -34,6 +36,7 @@ const alignmentSchema = z.object({
 const baseCharacterSchema = z.object({
   name: z.string().min(1, "Character name is required"),
   campaignId: z.number().int().optional(),
+  setting: z.nativeEnum(GAME_SETTINGS),
 });
 
 const characterCreationSchema = baseCharacterSchema
@@ -180,7 +183,178 @@ const AttributePairSlider = ({ form, name1, label1, name2, label2, totalPoints }
   );
 };
 
-const AttributesStep = ({ form }: { form: any }) => {
+const AttributesStep = ({ form, currentGame }: { form: any, currentGame: GameSetting }) => {
+  // Load attribute names based on the current game setting
+  const attributeData = (() => {
+    switch (currentGame) {
+      case GAME_SETTINGS.HARROWING_TRUTH:
+        return {
+          title: "Core Attributes (D100)",
+          description: "Allocate points to your six core attributes (30% to 90%).",
+          pairs: [
+            { name1: "katra", label1: "Strength (STR)", name2: "dominion", label2: "Dexterity (DEX)" },
+            { name1: "imperius", label1: "Constitution (CON)", name2: "harmonia", label2: "Intelligence (INT)" },
+            { name1: "gnosis", label1: "Sanity (SAN)", name2: "entropy", label2: "Charisma (CHA)" },
+          ],
+          isOpposed: false,
+          min: 30,
+          max: 90,
+        };
+      case GAME_SETTINGS.PLANET_OF_THE_SONG:
+        return {
+          title: "Core Attributes (Planet of the Song)",
+          description: "Set your four core attributes (Force, Arcanum, Essence, Prowess).",
+          pairs: [
+            { name1: "katra", label1: "Force", name2: "imperius", label2: "Arcanum" },
+            { name1: "dominion", label1: "Essence", name2: "harmonia", label2: "Prowess" },
+          ],
+          isOpposed: true,
+          totalPoints: 20,
+        };
+      case GAME_SETTINGS.CONFLICT_HORIZON:
+      default:
+        return {
+          title: "Pentagram Attributes (Opposed Pairs)",
+          description: "The system enforces an antagonistic relationship: increasing one attribute reduces its opposite.",
+          pairs: [
+            { name1: "katra", label1: "Katra (Physical)", name2: "imperius", label2: "Imperius (Will/Social)" },
+            { name1: "dominion", label1: "Dominion (Endurance)", name2: "harmonia", label2: "Harmonia (Empathy/Psionic)" },
+          ],
+          isOpposed: true,
+          totalPoints: 20,
+        };
+    }
+  })();
+
+  // Component for a single, non-opposed attribute (for Harrowing Truth)
+  const SingleAttributeSlider = ({ form, name, label, min, max }: { form: any, name: string, label: string, min: number, max: number }) => (
+    <FormField
+      control={form.control}
+      name={name}
+      render={({ field }) => (
+        <FormItem>
+          <div className="flex justify-between items-center">
+            <FormLabel className="capitalize">{label}</FormLabel>
+            <span className="font-bold text-xl text-primary">{field.value}%</span>
+          </div>
+          <FormControl>
+            <Slider
+              min={min}
+              max={max}
+              step={1}
+              value={[field.value]}
+              onValueChange={(val) => field.onChange(val[0])}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+
+  // Component for opposed attribute pairs (for Conflict Horizon and Planet of the Song)
+  const OpposedAttributePairSlider = ({ form, name1, label1, name2, label2, totalPoints }: { form: any, name1: string, label1: string, name2: string, label2: string, totalPoints: number }) => {
+    const value1 = form.watch(name1);
+    const value2 = form.watch(name2);
+
+    const handleSliderChange = (newValue: number[], fieldName: string) => {
+      const newTotal = newValue[0];
+      const otherName = fieldName === name1 ? name2 : name1;
+      const otherValue = totalPoints - newTotal;
+
+      if (otherValue >= 1 && otherValue <= totalPoints - 1) {
+        form.setValue(fieldName, newTotal, { shouldValidate: true });
+        form.setValue(otherName, otherValue, { shouldValidate: true });
+      }
+    };
+
+    return (
+      <div className="space-y-4 border p-4 rounded-lg">
+        <h4 className="font-bold text-lg">Opposed Pair: {label1} vs {label2} (Total: {totalPoints})</h4>
+        <div className="grid grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name={name1}
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex justify-between items-center">
+                  <FormLabel className="capitalize">{label1}</FormLabel>
+                  <span className="font-bold text-xl text-primary">{field.value}</span>
+                </div>
+                <FormControl>
+                  <Slider
+                    min={1}
+                    max={totalPoints - 1} // Max value is totalPoints - 1 to ensure the other attribute is at least 1
+                    step={1}
+                    value={[field.value]}
+                    onValueChange={(val) => handleSliderChange(val, name1)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name={name2}
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex justify-between items-center">
+                  <FormLabel className="capitalize">{label2}</FormLabel>
+                  <span className="font-bold text-xl text-primary">{field.value}</span>
+                </div>
+                <FormControl>
+                  <Slider
+                    min={1}
+                    max={totalPoints - 1}
+                    step={1}
+                    value={[field.value]}
+                    onValueChange={(val) => handleSliderChange(val, name2)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <CardContent className="space-y-6">
+      <h3 className="text-xl font-semibold">{attributeData.title}</h3>
+      <p className="text-sm text-muted-foreground">
+        {attributeData.description}
+      </p>
+      {attributeData.isOpposed ? (
+        <>
+          {attributeData.pairs.map((pair, index) => (
+            <OpposedAttributePairSlider
+              key={index}
+              form={form}
+              name1={pair.name1}
+              label1={pair.label1}
+              name2={pair.name2}
+              label2={pair.label2}
+              totalPoints={attributeData.totalPoints!}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {/* Render all six attributes for Harrowing Truth as single sliders */}
+          <SingleAttributeSlider form={form} name="katra" label="Strength (STR)" min={attributeData.min!} max={attributeData.max!} />
+          <SingleAttributeSlider form={form} name="dominion" label="Dexterity (DEX)" min={attributeData.min!} max={attributeData.max!} />
+          <SingleAttributeSlider form={form} name="imperius" label="Constitution (CON)" min={attributeData.min!} max={attributeData.max!} />
+          <SingleAttributeSlider form={form} name="harmonia" label="Intelligence (INT)" min={attributeData.min!} max={attributeData.max!} />
+          <SingleAttributeSlider form={form} name="gnosis" label="Sanity (SAN)" min={attributeData.min!} max={attributeData.max!} />
+          <SingleAttributeSlider form={form} name="entropy" label="Charisma (CHA)" min={attributeData.min!} max={attributeData.max!} />
+        </>
+      )}
+    </CardContent>
+  );
+};
   // Assuming a starting total of 20 for each opposed pair (10 + 10 default)
   const totalPoints = 20;
 
@@ -212,7 +386,7 @@ const AttributesStep = ({ form }: { form: any }) => {
 
 import { Slider } from "@client/components/ui/slider";
 
-const ProficienciesStep = ({ form }: { form: any }) => (
+const ProficienciesStep = ({ form, currentGame }: { form: any, currentGame: GameSetting }) => (
   <CardContent className="space-y-6">
     <h3 className="text-xl font-semibold">Proficiencies and Gate Tier System</h3>
     <p className="text-sm text-muted-foreground">
@@ -260,7 +434,18 @@ const ProficienciesStep = ({ form }: { form: any }) => (
   </CardContent>
 );
 
-const AlignmentStep = ({ form }: { form: any }) => {
+const AlignmentStep = ({ form, currentGame }: { form: any, currentGame: GameSetting }) => {
+  if (currentGame !== GAME_SETTINGS.CONFLICT_HORIZON) {
+    return (
+      <CardContent>
+        <h3 className="text-xl font-semibold">Alignment/Unique Mechanic</h3>
+        <p className="text-sm text-muted-foreground">
+          {currentGame} uses a different alignment system (e.g., Sanity for Harrowing Truth, Resonance/Dissonance for Planet of the Song).
+          This step is skipped for now, but the data is captured in the Attributes step.
+        </p>
+      </CardContent>
+    );
+  }
   const gnosis = form.watch("gnosis");
   const entropy = form.watch("entropy");
 
@@ -334,11 +519,13 @@ const steps = [
 ];
 
 export function CharacterCreator() {
+  const { currentGame } = useGameSetting();
   const [currentStep, setCurrentStep] = useState(0);
   const form = useForm<CharacterCreationFormValues>({
     resolver: zodResolver(characterCreationSchema),
     defaultValues: {
       name: "",
+      setting: currentGame,
       birthVector: "",
       pointOfOrigin: "",
       faction: "",
@@ -394,6 +581,9 @@ export function CharacterCreator() {
 
   const CurrentStepComponent = steps[currentStep].component;
 
+  // Pass currentGame to the step component
+  const StepComponent = CurrentStepComponent;
+
   return (
     <div className="container mx-auto py-10 max-w-3xl">
       <Card>
@@ -424,7 +614,7 @@ export function CharacterCreator() {
               </CardContent>
             )}
 
-            <CurrentStepComponent form={form} />
+            <StepComponent form={form} currentGame={currentGame} />
 
             <CardContent className="flex justify-between pt-0">
               <Button
