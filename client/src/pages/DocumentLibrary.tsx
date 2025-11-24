@@ -7,6 +7,7 @@ import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
 import { Upload, FileText, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useGameSetting } from "@client/contexts/GameSettingContext";
 import axios from "axios";
 import { Document } from "@server/drizzle/schema";
 
@@ -22,10 +23,11 @@ const formatFileSize = (bytes: number) => {
 export function DocumentLibrary() {
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const { currentGame } = useGameSetting();
 
   const { data: documents, refetch } = useQuery({
-    queryKey: ["documents"],
-    queryFn: () => appRouter.document.list.query(),
+    queryKey: ["documents", currentGame],
+    queryFn: () => appRouter.document.list.query({ setting: currentGame }),
   });
 
   const getUploadUrlMutation = useMutation({
@@ -62,6 +64,7 @@ export function DocumentLibrary() {
         fileName: file.name,
         fileType: file.type || "application/octet-stream",
         fileSize: file.size,
+        setting: currentGame,
       });
 
       // 2. Upload the file directly to S3 using the pre-signed URL

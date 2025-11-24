@@ -4,9 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { BookOpen, Dices, Sparkles, Users, Zap } from "lucide-react";
 import { Link } from "wouter";
+import { DiceRoller } from "@client/components/DiceRoller";
+import { useGameSetting } from "@client/contexts/GameSettingContext";
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
+  const { currentGame } = useGameSetting();
 
   if (loading) {
     return (
@@ -27,11 +30,10 @@ export default function Home() {
             <img src={APP_LOGO} alt="Conflict Horizon" className="w-32 h-32 rounded-lg shadow-lg" />
           </div>
           <h1 className="text-5xl md:text-7xl font-bold cosmic-glow">
-            {APP_TITLE}
+            ALYAN TTRPG Hub
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-            Experience the Palladial Universe with an AI-powered Dungeon Master.
-            Create characters, run campaigns, and explore the Psionic Tapestry.
+            Your universal hub for **{currentGame}** and other ALYAN TTRPG systems.
           </p>
           
           {!isAuthenticated ? (
@@ -59,6 +61,14 @@ export default function Home() {
               </Button>
             </div>
           )}
+        </div>
+
+        {/* Universal Tools */}
+        <div className="mt-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 cosmic-glow">
+            Universal Tools for {currentGame}
+          </h2>
+          <DiceRoller theme={currentGame} />
         </div>
 
         {/* Features Grid */}
@@ -127,7 +137,7 @@ export default function Home() {
         {/* System Overview */}
         <div className="mt-24 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 cosmic-glow">
-            The Pentagram System
+            Core Attributes for {currentGame}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="bg-card/50 backdrop-blur border-primary/50">
@@ -169,7 +179,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-border/50 mt-24 py-8">
         <div className="container text-center text-muted-foreground">
-          <p>Powered by the Psionic Tapestry • Built for the Palladial Universe</p>
+          <p>Powered by the Universal Core • Built for the ALYAN TTRPG Universe</p>
         </div>
       </footer>
     </div>

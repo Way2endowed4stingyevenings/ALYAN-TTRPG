@@ -1,0 +1,35 @@
+{
+  "settingName": "The Harrowing Truth",
+  "theme": "Cosmic Horror & Survival",
+  "coreMechanic": "D100 Roll-Under System",
+  "attributes": [
+    { "key": "STR", "name": "Strength", "description": "Physical power, endurance, and carrying capacity." },
+    { "key": "DEX", "name": "Dexterity", "description": "Agility, reflexes, and coordination for stealth and finesse." },
+    { "key": "CON", "name": "Constitution", "description": "Physical resilience, stamina, and resistance to injury/poison." },
+    { "key": "INT", "name": "Intelligence", "description": "Analytical aptitude, puzzle-solving, and arcane/scientific understanding." },
+    { "key": "SAN", "name": "Sanity", "description": "Mental stability and resistance to psychological trauma." },
+    { "key": "CHA", "name": "Charisma", "description": "Social influence, persuasion, and leadership." }
+  ],
+  "attributeGeneration": {
+    "method": "Roll 3d10 x 10 for each attribute (30% to 90%) and allocate as desired.",
+    "range": "30% - 90%"
+  },
+  "sanitySystem": {
+    "description": "Sanity is tested when confronting horrifying events. Roll d100 under your current SAN score to resist.",
+    "consequences": [
+      { "threshold": "Below 50%", "effect": "Experiences paranoia, hallucinations, or phobias." },
+      { "threshold": "Below 20%", "effect": "Function is severely impaired." },
+      { "threshold": "0%", "effect": "Character succumbs to madness and is removed from play." }
+    ],
+    "lossExamples": [
+      { "event": "Discovering a mutilated body", "loss": "1-3 SAN" },
+      { "event": "Witnessing an eldritch ritual", "loss": "1d10 SAN" },
+      { "event": "Seeing a cosmic entity", "loss": "1d20+5 SAN" }
+    ]
+  },
+  "skills": {
+    "untrainedPenalty": "+20% penalty to the roll (making success harder).",
+    "startingValue": "Base percentage determined by the associated Attribute."
+  },
+  "usfrNotes": "The core mechanical loop is a D100 roll-under system. The character creation process is a detailed point-buy/allocation system focused on balancing the six core attributes and their associated skills. The primary unique mechanic is the Sanity system, which must be visually tracked and integrated into the character sheet."
+}
