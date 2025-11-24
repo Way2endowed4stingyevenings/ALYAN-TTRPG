@@ -1,16 +1,24 @@
 {
   "settingName": "The Harrowing Truth",
   "theme": "Cosmic Horror & Survival",
-  "coreMechanic": "D100 Roll-Under System",
+  "coreMechanic": "Universal D100 Roll-Under System",
   "attributes": [
-    { "key": "STR", "name": "Strength", "description": "Physical power, endurance, and carrying capacity." },
-    { "key": "DEX", "name": "Dexterity", "description": "Agility, reflexes, and coordination for stealth and finesse." },
-    { "key": "CON", "name": "Constitution", "description": "Physical resilience, stamina, and resistance to injury/poison." },
-    { "key": "INT", "name": "Intelligence", "description": "Analytical aptitude, puzzle-solving, and arcane/scientific understanding." },
-    { "key": "SAN", "name": "Sanity", "description": "Mental stability and resistance to psychological trauma." },
-    { "key": "CHA", "name": "Charisma", "description": "Social influence, persuasion, and leadership." }
+    { "universalKey": "katra", "name": "Strength (STR)", "description": "Physical power, endurance, and carrying capacity." },
+    { "universalKey": "dominion", "name": "Constitution (CON)", "description": "Physical resilience, stamina, and resistance to injury/poison." },
+    { "universalKey": "imperius", "name": "Dexterity (DEX)", "description": "Agility, reflexes, and coordination for stealth and finesse." },
+    { "universalKey": "harmonia", "name": "Intelligence (INT)", "description": "Analytical aptitude, puzzle-solving, and arcane/scientific understanding." },
+    { "universalKey": "gnosis", "name": "Sanity (SAN)", "description": "Mental stability and resistance to psychological trauma." },
+    { "universalKey": "entropy", "name": "Charisma (CHA)", "description": "Social influence, persuasion, and leadership." }
   ],
   "attributeGeneration": {
+    "universalMapping": {
+      "katra": "STR",
+      "dominion": "CON",
+      "imperius": "DEX",
+      "harmonia": "INT",
+      "gnosis": "SAN",
+      "entropy": "CHA"
+    },
     "method": "Roll 3d10 x 10 for each attribute (30% to 90%) and allocate as desired.",
     "range": "30% - 90%"
   },
@@ -31,5 +39,5 @@
     "untrainedPenalty": "+20% penalty to the roll (making success harder).",
     "startingValue": "Base percentage determined by the associated Attribute."
   },
-  "usfrNotes": "The core mechanical loop is a D100 roll-under system. The character creation process is a detailed point-buy/allocation system focused on balancing the six core attributes and their associated skills. The primary unique mechanic is the Sanity system, which must be visually tracked and integrated into the character sheet."
+  "usfrNotes": "The core mechanical loop is a Universal D100 roll-under system. The character creation process is a detailed point-buy/allocation system focused on balancing the six core attributes and their associated skills. The primary unique mechanic is the Sanity system, which must be visually tracked and integrated into the character sheet. The six D100 attributes have been mapped to the Universal Pentagram/Alignment keys for system consistency."
 }

@@ -184,10 +184,52 @@ const AttributePairSlider = ({ form, name1, label1, name2, label2, totalPoints }
 };
 
 const AttributesStep = ({ form, currentGame }: { form: any, currentGame: GameSetting }) => {
-  // Load attribute names based on the current game setting
   const attributeData = (() => {
+    // The logic here is simplified because the game data is now structured to support the universal keys.
+    // We can use the universal keys and load the game-specific names from the JSON data.
+    // However, for now, we will keep the explicit switch to control the UI logic (opposed vs. single).
+    const gameData = GAME_DATA[currentGame];
+
     switch (currentGame) {
       case GAME_SETTINGS.HARROWING_TRUTH:
+        return {
+          title: gameData.settingName + " Core Attributes",
+          description: "Allocate points to your six core attributes (30% to 90%).",
+          pairs: [
+            { name1: "katra", label1: gameData.attributes.find(a => a.universalKey === 'katra')?.name || 'Katra', name2: "dominion", label2: gameData.attributes.find(a => a.universalKey === 'dominion')?.name || 'Dominion' },
+            { name1: "imperius", label1: gameData.attributes.find(a => a.universalKey === 'imperius')?.name || 'Imperius', name2: "harmonia", label2: gameData.attributes.find(a => a.universalKey === 'harmonia')?.name || 'Harmonia' },
+            { name1: "gnosis", label1: gameData.attributes.find(a => a.universalKey === 'gnosis')?.name || 'Gnosis', name2: "entropy", label2: gameData.attributes.find(a => a.universalKey === 'entropy')?.name || 'Entropy' },
+          ],
+          isOpposed: false,
+          min: 30,
+          max: 90,
+        };
+      case GAME_SETTINGS.PLANET_OF_THE_SONG:
+        return {
+          title: gameData.settingName + " Core Attributes",
+          description: "Set your four core attributes (Force, Arcanum, Essence, Prowess) using the opposed point-buy system.",
+          pairs: [
+            { name1: "katra", label1: gameData.attributes.find(a => a.universalKey === 'katra')?.name || 'Katra', name2: "imperius", label2: gameData.attributes.find(a => a.universalKey === 'imperius')?.name || 'Imperius' },
+            { name1: "dominion", label1: gameData.attributes.find(a => a.universalKey === 'dominion')?.name || 'Dominion', name2: "harmonia", label2: gameData.attributes.find(a => a.universalKey === 'harmonia')?.name || 'Harmonia' },
+          ],
+          isOpposed: true,
+          totalPoints: 20,
+        };
+      case GAME_SETTINGS.CONFLICT_HORIZON:
+      default:
+        return {
+          title: gameData.settingName + " Pentagram Attributes",
+          description: "The system enforces an antagonistic relationship: increasing one attribute reduces its opposite.",
+          pairs: [
+            { name1: "katra", label1: gameData.attributes.find(a => a.universalKey === 'katra')?.name || 'Katra', name2: "imperius", label2: gameData.attributes.find(a => a.universalKey === 'imperius')?.name || 'Imperius' },
+            { name1: "dominion", label1: gameData.attributes.find(a => a.universalKey === 'dominion')?.name || 'Dominion', name2: "harmonia", label2: gameData.attributes.find(a => a.universalKey === 'harmonia')?.name || 'Harmonia' },
+          ],
+          isOpposed: true,
+          totalPoints: 20,
+        };
+    }
+  })();
+
         return {
           title: "Core Attributes (D100)",
           description: "Allocate points to your six core attributes (30% to 90%).",
@@ -205,8 +247,8 @@ const AttributesStep = ({ form, currentGame }: { form: any, currentGame: GameSet
           title: "Core Attributes (Planet of the Song)",
           description: "Set your four core attributes (Force, Arcanum, Essence, Prowess).",
           pairs: [
-            { name1: "katra", label1: "Force", name2: "imperius", label2: "Arcanum" },
-            { name1: "dominion", label1: "Essence", name2: "harmonia", label2: "Prowess" },
+            { name1: "katra", label1: gameData.attributes.find(a => a.universalKey === 'katra')?.name || 'Katra', name2: "imperius", label2: gameData.attributes.find(a => a.universalKey === 'imperius')?.name || 'Imperius' },
+            { name1: "dominion", label1: gameData.attributes.find(a => a.universalKey === 'dominion')?.name || 'Dominion', name2: "harmonia", label2: gameData.attributes.find(a => a.universalKey === 'harmonia')?.name || 'Harmonia' },
           ],
           isOpposed: true,
           totalPoints: 20,
@@ -217,8 +259,8 @@ const AttributesStep = ({ form, currentGame }: { form: any, currentGame: GameSet
           title: "Pentagram Attributes (Opposed Pairs)",
           description: "The system enforces an antagonistic relationship: increasing one attribute reduces its opposite.",
           pairs: [
-            { name1: "katra", label1: "Katra (Physical)", name2: "imperius", label2: "Imperius (Will/Social)" },
-            { name1: "dominion", label1: "Dominion (Endurance)", name2: "harmonia", label2: "Harmonia (Empathy/Psionic)" },
+            { name1: "katra", label1: gameData.attributes.find(a => a.universalKey === 'katra')?.name || 'Katra', name2: "imperius", label2: gameData.attributes.find(a => a.universalKey === 'imperius')?.name || 'Imperius' },
+            { name1: "dominion", label1: gameData.attributes.find(a => a.universalKey === 'dominion')?.name || 'Dominion', name2: "harmonia", label2: gameData.attributes.find(a => a.universalKey === 'harmonia')?.name || 'Harmonia' },
           ],
           isOpposed: true,
           totalPoints: 20,
