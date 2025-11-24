@@ -1,14 +1,24 @@
 {
   "settingName": "Planet of the Song",
   "theme": "Whimsical Fantasy & Cosmic Balance",
-  "coreMechanic": "D100 Roll-Under System (Universal)",
+  "coreMechanic": "Universal Core System (Resonance/Dissonance)",
   "attributes": [
-    { "key": "FORCE", "name": "Force", "description": "Raw physical power and impact. Governs strength and direct action." },
-    { "key": "ARCANUM", "name": "Arcanum", "description": "Magical potential and psionic resonance. Governs spellcasting and mental defense." },
-    { "key": "ESSENCE", "name": "Essence", "description": "Life force, endurance, and connection to the world's cycles. Governs health and recovery." },
-    { "key": "PROWESS", "name": "Prowess", "description": "Agility, skill, and finesse in complex tasks. Governs movement and specialized actions." }
+    { "universalKey": "katra", "name": "Force", "description": "The raw, physical power and kinetic energy a character can exert. Tied to physical combat and feats of strength." },
+    { "universalKey": "dominion", "name": "Essence", "description": "A character's inner vitality, endurance, and connection to the world's life force. Tied to health, stamina, and resilience against corruption." },
+    { "universalKey": "imperius", "name": "Arcanum", "description": "Mental acuity, knowledge of the world's hidden truths, and the ability to channel the Song. Tied to spellcasting, psionics, and investigation." },
+    { "universalKey": "harmonia", "name": "Prowess", "description": "Agility, finesse, and the skill with which a character executes complex actions. Tied to stealth, ranged combat, and fine motor skills." },
+    { "universalKey": "gnosis", "name": "Resonance", "description": "A character's attunement to the world's harmonious Song. Represents purity, healing, and resistance to the Void." },
+    { "universalKey": "entropy", "name": "Dissonance", "description": "A character's susceptibility to the Void and the forces of decay. Represents chaos, corruption, and the ability to wield raw, destructive power." }
   ],
   "attributeGeneration": {
+    "universalMapping": {
+      "katra": "Force",
+      "dominion": "Essence",
+      "imperius": "Arcanum",
+      "harmonia": "Prowess",
+      "gnosis": "Resonance",
+      "entropy": "Dissonance"
+    },
     "method": "To be determined (TBD). Will likely use a point-buy system similar to Conflict Horizon's Pentagram Attributes to enforce balance.",
     "range": "TBD"
   },
@@ -17,5 +27,5 @@
     { "name": "Dynamic Attribute Points (DAPs)", "description": "A system for attribute growth and milestones, suggesting a fluid character progression." },
     { "name": "Song and Void Influences", "description": "Environmental and magical effects tied to the world's balance." }
   ],
-  "usfrNotes": "The core mechanical loop is the Universal D100 system. The character creation process will focus on the four core attributes and the Resonance/Dissonance alignment. The system needs a clear point-buy rule for the four attributes to enforce a balanced character concept."
+  "usfrNotes": "The core mechanical loop is the Universal Core System. The character creation process focuses on the four core attributes (Force, Arcanum, Essence, Prowess) and the unique Resonance/Dissonance alignment. All six Universal Keys are mapped to these attributes, with Gnosis/Entropy representing the core alignment mechanic. The scope has been expanded to include detailed mechanics for Resonance, Dissonance, and the Song/Void influences."
 }
